@@ -1,9 +1,10 @@
 import logic
+from art import game_logo
 
 
 def game():
     game_end = False
-    logic.logo()  # Отображаем баннер-приветсвие
+    logic.logo(game_logo)  # Отображаем баннер-приветсвие
 
     game_field, turn = logic.new_game_field_creator()  # Создаем пустое игровое поле и счетчик ходов
 

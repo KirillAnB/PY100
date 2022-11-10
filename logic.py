@@ -1,12 +1,8 @@
-from art import game_logo as banner
-def game():
-    """основная функция, запускает процесс игры"""
-    pass
 
 
-def logo():
+def logo(hello_var):
     """выводит лого игры в консоли"""
-    print(banner)
+    print(hello_var)
 
 
 def new_game_field_creator():
