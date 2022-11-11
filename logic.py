@@ -1,4 +1,4 @@
-
+from win_list import win_or_draw_check_2
 
 def logo(hello_var):
     """выводит лого игры в консоли"""
@@ -37,7 +37,7 @@ def player_step(game_fields,step):
         except:
             print("Проверьте правильность ввода(цифры от 1 до 9)")
     show_game_field(game_fields)
-    if win_or_draw_check(game_fields,step) == True:
+    if win_or_draw_check_2(game_fields,step) == True:
         return True
 
 
@@ -63,52 +63,61 @@ def show_game_field(board):
     print('-+-+-')
     print(board['7'] + '|' + board['8'] + '|' + board['9'])
 
-def win_or_draw_check(theBoard:dict,step:int)->bool:
-    """Проверяет закончена ли игра"""
-    if theBoard['1'] == theBoard['2'] == theBoard['3'] != ' ':  # top
-        print(f"Игрок {theBoard['1']} выиграл.")
-        return True
-    elif theBoard['4'] == theBoard['5'] == theBoard['6'] != ' ':  # middle
-        print(f"Игрок {theBoard['4']} выиграл.")
-        return True
-    elif theBoard['7'] == theBoard['8'] == theBoard['9'] != ' ':  # bottom
-        print(f"Игрок {theBoard['7']} выиграл.")
-        return True
-    elif theBoard['1'] == theBoard['4'] == theBoard['7'] != ' ':  # left side
-        print(f"Игрок {theBoard['1']} выиграл.")
-        return True
-    elif theBoard['2'] == theBoard['5'] == theBoard['8'] != ' ':  # middle 
-        print(f"Игрок {theBoard['2']} выиграл.")
-        return True
-    elif theBoard['3'] == theBoard['6'] == theBoard['9'] != ' ':  # right side
-        print(f"Игрок{theBoard['3']} выиграл.")
-        return True
-    elif theBoard['1'] == theBoard['5'] == theBoard['9'] != ' ':  # diagonal 1
-        print(f"Игрок {theBoard['1']} выиграл.")
-        return True
-    elif theBoard['7'] == theBoard['5'] == theBoard['3'] != ' ':  # diagonal 2
-        print(f"Игрок {theBoard['7']} выиграл.")
-        return True
-    elif step == 8:
-        print("Ничья.Игра закочнена.")
-        return True
-    else:
-        return False
-
-
-def new_game()-> bool:
-    """Проверяет, если гроки хотят продолжит игру"""
-    try:
-        user_input = input("Запустить новую игру?('Y' для запуска)")
-        return True if user_input.lower() =='y' else False
-    except:
-        return False
-
-
-# def player_simbol(count:int)-> str:
-#     """Определяем символ, который ставит игрок"""
-#     if count % 2 == 0:
-#         return 'X'
+# def win_or_draw_check(theBoard:dict,step:int)->bool:
+#     """Проверяет закончена ли игра"""
+#     if theBoard['1'] == theBoard['2'] == theBoard['3'] != ' ':  # top
+#         print(f"Игрок {theBoard['1']} выиграл.")
+#         return True
+#     elif theBoard['4'] == theBoard['5'] == theBoard['6'] != ' ':  # middle
+#         print(f"Игрок {theBoard['4']} выиграл.")
+#         return True
+#     elif theBoard['7'] == theBoard['8'] == theBoard['9'] != ' ':  # bottom
+#         print(f"Игрок {theBoard['7']} выиграл.")
+#         return True
+#     elif theBoard['1'] == theBoard['4'] == theBoard['7'] != ' ':  # left side
+#         print(f"Игрок {theBoard['1']} выиграл.")
+#         return True
+#     elif theBoard['2'] == theBoard['5'] == theBoard['8'] != ' ':  # middle
+#         print(f"Игрок {theBoard['2']} выиграл.")
+#         return True
+#     elif theBoard['3'] == theBoard['6'] == theBoard['9'] != ' ':  # right side
+#         print(f"Игрок{theBoard['3']} выиграл.")
+#         return True
+#     elif theBoard['1'] == theBoard['5'] == theBoard['9'] != ' ':  # diagonal 1
+#         print(f"Игрок {theBoard['1']} выиграл.")
+#         return True
+#     elif theBoard['7'] == theBoard['5'] == theBoard['3'] != ' ':  # diagonal 2
+#         print(f"Игрок {theBoard['7']} выиграл.")
+#         return True
+#     elif step == 8:
+#         print("Ничья.Игра закочнена.")
+#         return True
 #     else:
-#         return 'O'
+#         return False
+#
+#
+# def new_game()-> bool:
+#     """Проверяет, если гроки хотят продолжит игру"""
+#     try:
+#         user_input = input("Запустить новую игру?('Y' для запуска)")
+#         return True if user_input.lower() =='y' else False
+#     except:
+#         return False
+
+def win_or_draw_check_2(board, step):
+    wins_combs_list = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['1', '5', '9'],
+                       ['3', '5', '7'], ['1', '4', '7'], ['2', '5', '8'], ['3', '6', '9']]# выигрышные комбинации ключей
+    simbol = 'X' if step % 2 == 0 else 'O'  # Определяем для какого игрока идет проверка
+    current_list = [k for k, v in board.items() if v == simbol]  # собираем ключи по заданному символу в список
+    for i in wins_combs_list:
+        list_ = []#лист для сравнения с выигрышными комбинациями
+        for k in current_list:
+            if k in i:
+                list_.append(k)
+                if list_ == i:
+                    print(f"{simbol} wins")
+                    return True
+                elif step == 8:
+                        print("Ничья!")
+                        return True
 
